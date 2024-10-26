@@ -27,20 +27,10 @@ public class EventServiceImpl implements EventService {
     public void createEvent(Map<String, Object> eventData) {
         String name = (String) eventData.get("name");
         String location = (String) eventData.get("location");
-
-        // Conversie corectă pentru budget
-        Double budget;
-        Object budgetObj = eventData.get("budget");
-        if (budgetObj instanceof Integer) {
-            budget = ((Integer) budgetObj).doubleValue();
-        } else if (budgetObj instanceof Double) {
-            budget = (Double) budgetObj;
-        } else {
-            throw new IllegalArgumentException("Invalid budget format");
-        }
-
+        Double budget = Double.parseDouble(eventData.get("budget").toString());
         String dateString = (String) eventData.get("date");
         Long organizerId = Long.valueOf(eventData.get("organizer_id").toString());
+        String organizerUsername = (String) eventData.get("organizer_username");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         Date date;
@@ -52,6 +42,11 @@ public class EventServiceImpl implements EventService {
 
         User organizer = userRepository.findById(organizerId)
                 .orElseThrow(() -> new IllegalArgumentException("Organizer not found"));
+
+        // Verifică dacă username-ul se potrivește cu userId-ul
+        if (!organizer.getUsername().equals(organizerUsername)) {
+            throw new IllegalArgumentException("Username and ID do not match");
+        }
 
         Event event = new Event();
         event.setName(name);
@@ -77,5 +72,9 @@ public class EventServiceImpl implements EventService {
     @Override
     public void deleteEvent(Long id) {
         eventRepository.deleteById(id);
+    }
+
+    public List<Event> getEventsByUserId(Long userId) {
+        return eventRepository.findByOrganizerId(userId);
     }
 }

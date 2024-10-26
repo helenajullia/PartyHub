@@ -39,23 +39,24 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> registerUser(@RequestBody UserRequestDTO userRequestDTO) {
-        userService.registerUser(userRequestDTO);
+    public ResponseEntity<Map<String, Object>> registerUser(@RequestBody UserRequestDTO userRequestDTO) {
+        User user = userService.registerUser(userRequestDTO);  // presupunând că `userService.registerUser` returnează un obiect `User`
 
-
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("message", "User registered successfully");
-
+        response.put("userId", user.getId());
+        response.put("username", user.getUsername());
 
         return ResponseEntity.ok(response);
     }
+
 
     @PostMapping("/verify")
     public ResponseEntity<Map<String, String>> verifyUser(@RequestBody Map<String, String> loginData) {
         String username = loginData.get("username");
         String password = loginData.get("password");
 
-        User user = userRepository.findByUsername(username); // findByUsername returnează un singur User
+        User user = userRepository.findByUsername(username);
 
         if (user != null && user.getPassword().equals(password)) {
             Map<String, String> response = new HashMap<>();

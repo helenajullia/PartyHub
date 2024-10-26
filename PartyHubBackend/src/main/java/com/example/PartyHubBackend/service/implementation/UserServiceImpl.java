@@ -46,12 +46,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(UserRequestDTO userRequestDTO) {
+    public User registerUser(UserRequestDTO userRequestDTO) {
         User user = new User();
         user.setFullName(userRequestDTO.getFullName());
         user.setUsername(userRequestDTO.getUsername());
         user.setEmail(userRequestDTO.getEmail());
-        user.setPassword(userRequestDTO.getPassword()); // Asigură-te că parola este criptată
-        userRepository.save(user);
+        user.setPassword(userRequestDTO.getPassword());
+
+        // Salvează utilizatorul în baza de date
+        return userRepository.save(user); // returnează obiectul salvat
     }
 }
