@@ -35,19 +35,28 @@ export default {
       this.$router.push('/auth');
     },
     async handleLogin() {
-      try {
-        const loginData = {
-          username: this.username,
-          password: this.password
-        };
+  try {
+    const loginData = {
+      username: this.username,
+      password: this.password
+    };
 
-        const response = await verifyUser(loginData);
-        alert(response.message);
-        this.$router.push('/home'); 
-      } catch (error) {
-        alert('Invalid username or password');
-      }
+    const response = await verifyUser(loginData);
+
+    if (response.message === "User exists") {
+      alert(response.message);
+
+      localStorage.setItem('userId', response.userId);
+      localStorage.setItem('username', response.username);
+
+      this.$router.push('/home');
+    } else {
+      alert('Invalid username or password');
     }
+  } catch (error) {
+    alert('Failed to verify user');
+  }
+}
   }
 };
 </script>

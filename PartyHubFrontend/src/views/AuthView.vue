@@ -39,28 +39,36 @@ export default {
       this.$router.push('/login');
     },
     async handleSignup() {
-      const userData = {
-        fullName: this.fullName,
-        username: this.username,
-        email: this.email,
-        password: this.password
-      };
+  const userData = {
+    fullName: this.fullName,
+    username: this.username,
+    email: this.email,
+    password: this.password
+  };
 
-      try {
-        const response = await registerUser(userData);
-        console.log("Server response:", response);
+  try {
+    const response = await registerUser(userData);
+    console.log("Server response:", response); 
 
-        if (response && response.message) {
-          alert(response.message);
-          this.$router.push('/home'); // Redirecționare la pagina de start
-        } else {
-          alert('Registration failed. Please try again.');
-        }
-      } catch (error) {
-        console.error("Error in registration:", error);
-        alert('Failed to register user');
-      }
+    if (response && response.message) {
+      localStorage.setItem('userId', response.userId);
+      localStorage.setItem('username', response.username);
+      
+      
+      console.log("Saved userId:", localStorage.getItem('userId'));
+      console.log("Saved username:", localStorage.getItem('username'));
+
+      alert(response.message);
+      this.$router.push('/home');
+    } else {
+      alert('Registration failed. Please try again.');
     }
+  } catch (error) {
+    console.error("Error in registration:", error);
+    alert('Failed to register user');
+  }
+}
+
   }
 };
 </script>

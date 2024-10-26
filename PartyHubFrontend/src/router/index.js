@@ -2,8 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LandingView from '../views/LandingView.vue';
 import AuthView from '../views/AuthView.vue';
 import LoginView from '../views/LoginView.vue';
-import HomeView from "../views/HomeView.vue"
-import PlanYourPartyView from "../views/PlanYourPartyView.vue"
+import HomeView from "../views/HomeView.vue";
+import PlanYourPartyView from "../views/PlanYourPartyView.vue";
+import UserEventsView from "../views/UserEventsView.vue"
+
 
 const routes = [
   {
@@ -31,6 +33,11 @@ const routes = [
     name: 'plan',
     component: PlanYourPartyView
   },
+  {
+    path: '/my-events',
+    name: 'UserEvents',
+    component: UserEventsView
+  }
 ];
 
 const router = createRouter({

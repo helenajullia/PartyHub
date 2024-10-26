@@ -8,10 +8,10 @@
         <a href="#" class="nav-link">Features</a>
         <a href="#" class="nav-link">Contact</a>
       </nav>
-      <div class="user-info">
+      <!-- <div class="user-info">
         <i class="fas fa-user-circle user-icon"></i>
         <span class="username">{{ username }}</span>
-      </div>
+      </div> -->
     </header>
 
     <section class="hero">
@@ -46,25 +46,25 @@
 <script>
 export default {
   name: 'HomeView',
-  data() {
-    return {
-      username: localStorage.getItem('username') || 'Guest'
-    };
-  },
+  // data() {
+  //   return {
+  //     username: localStorage.getItem('username') || 'Guest'
+  //   };
+  // },
   methods: {
   goToPlanYourParty() {
     this.$router.push('/plan');
   }
 },
-  mounted() {
-    // Actualizează username-ul în cazul în care utilizatorul se autentifică dintr-o altă componentă
-    this.username = localStorage.getItem('username') || 'Guest';
-  }
+  // mounted() {
+  //   
+  //   this.username = localStorage.getItem('username') || 'Guest';
+  // }
 };
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'); /* Import FontAwesome pentru iconița de utilizator */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'); 
 
 * {
   margin: 0;
@@ -120,7 +120,6 @@ html, body {
   transform: scale(1.1);
 }
 
-/* Stil pentru iconița de utilizator */
 .user-info {
   display: flex;
   align-items: center;

@@ -8,7 +8,7 @@
         <a href="#" class="nav-link">Features</a>
         <a href="#" class="nav-link">Contact</a>
       </nav>
-      <div class="user-info">
+      <div class="user-info" @click="goToUserEvents" style="cursor: pointer;">
         <i class="fas fa-user-circle user-icon"></i>
         <span class="username">{{ username }}</span>
       </div>
@@ -46,39 +46,44 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const organizerId = localStorage.getItem('userId');
-      if (!organizerId) {
-        alert('User ID not found. Please log in again.');
-        return;
-      }
+  const organizerId = localStorage.getItem('userId');
+  const organizerUsername = localStorage.getItem('username');
 
-      const eventData = {
-        name: this.eventName,
-        location: this.location,
-        budget: this.budget,
-        date: this.date,
-        organizer_id: parseInt(organizerId) // Convert to integer if necessary
-      };
+  if (!organizerId) {
+    alert('User ID not found. Please log in again.');
+    return;
+  }
 
-      try {
-        const response = await createEvent(eventData);
-        alert(response.message);
+  const eventData = {
+    name: this.eventName,
+    location: this.location,
+    budget: this.budget,
+    date: new Date(this.date).toISOString(), 
+    description: this.description,
+    organizer_id: parseInt(organizerId),
+    organizer_username: organizerUsername
+  };
 
-        this.eventName = '';
-        this.location = '';
-        this.budget = null;
-        this.date = '';
-        this.description = '';
-      } catch (error) {
-        alert('Failed to create event');
-      }
-    }
+  try {
+    const response = await createEvent(eventData);
+    alert(response.message);
+
+    this.eventName = '';
+    this.location = '';
+    this.budget = null;
+    this.date = '';
+    this.description = '';
+  } catch (error) {
+    alert('Failed to create event');
+  }
+}, goToUserEvents() {
+    this.$router.push('/my-events');
+  }
   }
 };
 </script>
 
 <style scoped>
-/* Stilurile din componenta `PlanYourParty` */
 .header {
   position: fixed;
   top: 0;
@@ -123,6 +128,7 @@ export default {
   align-items: center;
   color: white;
   font-size: 1rem;
+  cursor: pointer; 
 }
 
 .user-icon {

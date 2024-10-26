@@ -15,7 +15,11 @@ export async function registerUser(userData) {
         throw new Error('Failed to register user');
       }
   
-      return await response.json();
+      const responseData = await response.json();
+      localStorage.setItem('userId', responseData.userId);
+      localStorage.setItem('username', responseData.username);
+  
+      return responseData;
     } catch (error) {
       console.error('Error in registerUser:', error);
       throw error;
@@ -38,7 +42,11 @@ export async function registerUser(userData) {
         throw new Error('Failed to verify user');
       }
   
-      return await response.json();
+      const responseData = await response.json();
+      localStorage.setItem('userId', responseData.userId);
+      
+  
+      return responseData;
     } catch (error) {
       console.error('Error in verifyUser:', error);
       throw error;
